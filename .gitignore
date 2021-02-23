@@ -1,0 +1,16 @@
+# Created by .ignore support plugin (hsz.mobi)
+### 普通Java项目 template
+# 文件夹
+.idea/
+out/
+doc/
+
+# 文件
+*.iml
+
+# ignore源码文件
+src/
+
+# unignore源码文件
+# HashMap类
+!/src/java/util/HashMap.java
