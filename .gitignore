@@ -7,6 +7,8 @@ doc/
 # 文件
 *.iml
 
+.gitignore
+
 # ignore源码文件
 src/com/
 src/javax/
