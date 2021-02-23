@@ -1,4 +1,3 @@
-# Created by .ignore support plugin (hsz.mobi)
 ### 普通Java项目 template
 # 文件夹
 .idea/
@@ -13,4 +12,4 @@ src/
 
 # unignore源码文件
 # HashMap类
-!/src/java/util/HashMap.java
+!src/java/util/HashMap.java
