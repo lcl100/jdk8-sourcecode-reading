@@ -1201,46 +1201,45 @@ public final class Integer extends Number implements Comparable<Integer> {
     }
 
     /**
-     * Converts the argument to a {@code long} by an unsigned
-     * conversion.  In an unsigned conversion to a {@code long}, the
-     * high-order 32 bits of the {@code long} are zero and the
-     * low-order 32 bits are equal to the bits of the integer
-     * argument.
-     * <p>
-     * Consequently, zero and positive {@code int} values are mapped
-     * to a numerically equal {@code long} value and negative {@code
-     * int} values are mapped to a {@code long} value equal to the
-     * input plus 2<sup>32</sup>.
+     * 通过无符号转换将int参数转换成long类型的。
+     * 因此，零和正int值被映射到数字上相等的long值，负int值被映射到等于输入加上2^32的long值
+     * 注意，下面的示例说明了负int值被映射到等于输入加上2^32的long值：
+     * System.out.println(Long.toBinaryString((long)(-123456+Math.pow(2,32))));// 11111111111111100001110111000000
+     * System.out.println(Long.toBinaryString(((long)-123456)&0xffffffffL));//    11111111111111100001110111000000
      *
-     * @param x the value to convert to an unsigned {@code long}
-     * @return the argument converted to {@code long} by an unsigned
-     * conversion
-     * @since 1.8
+     * @param x 要转换为unsigned long的值
+     * @return 返回通过无符号转换为long的参数
      */
     public static long toUnsignedLong(int x) {
+        /*
+            0xffffffffL=0000 0000 0000 0000 0000 0000 0000 0000 1111 1111 1111 1111 1111 1111 1111 1111
+            若x是一个正数，如x=123456，低32位保持原值，高32位填充为0
+                ((long)123456)&0xffffffffL
+                    0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0001 1110 0010 0100 0000
+                   &
+                    0000 0000 0000 0000 0000 0000 0000 0000 1111 1111 1111 1111 1111 1111 1111 1111
+                   =0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0001 1110 0010 0100 0000
+            若x是一个零，则为0
+            若x是一个负数，如x=-123456
+                ((long)-123456)&0xffffffffL
+                    1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1110 0001 1101 1100 0000
+                   &
+                    0000 0000 0000 0000 0000 0000 0000 0000 1111 1111 1111 1111 1111 1111 1111 1111
+                   =0000 0000 0000 0000 0000 0000 0000 0000 1111 1111 1111 1110 0001 1101 1100 0000
+         */
         return ((long) x) & 0xffffffffL;
     }
 
     /**
-     * Returns the unsigned quotient of dividing the first argument by
-     * the second where each argument and the result is interpreted as
-     * an unsigned value.
+     * 返回第一个参数除以第二个参数的无符号商值，其中每个参数和结果都被解释为无符号值
+     * 注意：在二进制补码算术中，如果将两个操作数都视为有符号或无符号，则加、减和乘这个三个其他基本运算在位上相同。因此不提供单独的addUnsigned等方法。
      *
-     * <p>Note that in two's complement arithmetic, the three other
-     * basic arithmetic operations of add, subtract, and multiply are
-     * bit-wise identical if the two operands are regarded as both
-     * being signed or both being unsigned.  Therefore separate {@code
-     * addUnsigned}, etc. methods are not provided.
-     *
-     * @param dividend the value to be divided
-     * @param divisor  the value doing the dividing
-     * @return the unsigned quotient of the first argument divided by
-     * the second argument
-     * @see #remainderUnsigned
-     * @since 1.8
+     * @param dividend 要被除的值，即a/b的a
+     * @param divisor  进行除法的值，即a/b的b
+     * @return 返回第一个参数除以第二个参数的无符号商
      */
     public static int divideUnsigned(int dividend, int divisor) {
-        // In lieu of tricky code, for now just use long arithmetic.
+        // 代替棘手的代码，现在只使用long算术。
         return (int) (toUnsignedLong(dividend) / toUnsignedLong(divisor));
     }
 
